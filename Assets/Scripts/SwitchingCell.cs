@@ -10,15 +10,10 @@ public class SwitchingCell : Cell
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Setting cell material");
         if (cellType == CellType.Blue) {
-            Material[] materials = new Material[1];
-            materials[0] = blue;
-            this.gameObject.GetComponent<MeshRenderer>().materials = materials;
+            ChangeMaterial(blue);
         } else {
-            Material[] materials = new Material[1];
-            materials[0] = red;
-            this.gameObject.GetComponent<MeshRenderer>().materials = materials;
+            ChangeMaterial(red);
         }
     }
 
@@ -29,17 +24,13 @@ public class SwitchingCell : Cell
 
     public override void TriggerCell()
     {
-        Debug.Log("Cell is being triggered");
         if (cellType == CellType.Blue) {
             cellType = CellType.Red;
-            Material[] materials = new Material[1];
-            materials[0] = red;
-            this.gameObject.GetComponent<MeshRenderer>().materials = materials;
+            ChangeMaterial(red);
         } else {
             cellType = CellType.Blue;
-            Material[] materials = new Material[1];
-            materials[0] = blue;
-            this.gameObject.GetComponent<MeshRenderer>().materials = materials;
+            ChangeMaterial(blue);
         }
+        grid.RecalculateDoors();
     }
 }

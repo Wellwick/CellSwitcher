@@ -11,9 +11,10 @@ public class Grid : MonoBehaviour
     public int height;
     private Cell[][] grid;
     private Player player;
+    public List<Door> doors;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         grid = new Cell[height][];
         for (int i = 0; i < grid.Length; i++) {
@@ -21,6 +22,7 @@ public class Grid : MonoBehaviour
             for (int j = 0; j < grid[i].Length; j++) {
                 Vector3 position = new Vector3(j, i);
                 grid[i][j] = GameObject.Instantiate(cellPrefab, position, new Quaternion(), transform).GetComponent<Cell>();
+                grid[i][j].grid = this;
             }
         }
         // Set the neighbours of each cell
@@ -44,14 +46,13 @@ public class Grid : MonoBehaviour
         player.MoveTo(grid[0][0]);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public bool CellsAreAll(CellType cellType)
     {
+        if (cellType == CellType.Any) {
+            // This is equivalent to having all switchable tiles as either 
+            // one colour or the other
+            return CellsAreAll(CellType.Red) || CellsAreAll(CellType.Blue);
+        }
         for (int i = 0; i < grid.Length; i++) {
             for (int j = 0; j < grid[i].Length; j++) {
                 if (!grid[i][j].CellIs(cellType)) {
@@ -60,5 +61,12 @@ public class Grid : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void RecalculateDoors()
+    {
+        foreach (Door door in doors) {
+            door.CheckOpen();
+        }
     }
 }

@@ -8,6 +8,7 @@ public class Cell : MonoBehaviour
     public Cell right;
     public Cell below;
     public Cell left;
+    public Grid grid; // A pointer back to the parent grid
 
     public virtual bool CellIs(CellType cellType)
     {
@@ -23,5 +24,12 @@ public class Cell : MonoBehaviour
     {
         // This does nothing for a base cell
         return;
+    }
+
+    protected void ChangeMaterial(Material material)
+    {
+        Material[] materials = new Material[1];
+        materials[0] = material;
+        GetComponent<MeshRenderer>().materials = materials;
     }
 }

@@ -5,10 +5,35 @@ using UnityEngine;
 public class Door : Wall
 {
     public CellType doorType;
-    public Grid grid;
+    public Material closed;
+    public Material open;
 
-    public bool isOpen()
+    private bool wasOpen = false;
+
+    void Start()
+    {
+        if (IsOpen()) {
+            wasOpen = true;
+            ChangeMaterial(open);
+        } else {
+            wasOpen = false;
+            ChangeMaterial(closed);
+        }
+    }
+
+    public bool IsOpen()
     {
         return grid.CellsAreAll(doorType);
+    }
+
+    public void CheckOpen()
+    {
+        if (IsOpen() && !wasOpen) {
+            wasOpen = true;
+            ChangeMaterial(open);
+        } else if (wasOpen && !IsOpen()) {
+            wasOpen = false;
+            ChangeMaterial(closed);
+        }
     }
 }
