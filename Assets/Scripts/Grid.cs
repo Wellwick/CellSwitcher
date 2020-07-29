@@ -5,10 +5,12 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     public GameObject cellPrefab;
+    public GameObject playerPrefab;
 
     public int width;
     public int height;
     private Cell[][] grid;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,8 @@ public class Grid : MonoBehaviour
                 }
             }
         }
+        player = GameObject.Instantiate(playerPrefab).GetComponent<Player>();
+        player.MoveTo(grid[0][0]);
     }
 
     // Update is called once per frame

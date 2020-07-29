@@ -13,4 +13,15 @@ public class Cell : MonoBehaviour
     {
         return true;
     }
+
+    public virtual bool CanMove()
+    {
+        return true;
+    }
+
+    public virtual void TriggerCell()
+    {
+        // This does nothing for a base cell
+        return;
+    }
 }
